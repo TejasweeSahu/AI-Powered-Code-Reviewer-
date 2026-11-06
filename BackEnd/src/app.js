@@ -1,18 +1,32 @@
 const express = require('express');
-const aiRoutes = require('./routes/ai.routes')
-const cors = require('cors')
+const cors = require('cors');
+const aiRoutes = require('./routes/ai.routes');
 
-const app = express()
+const app = express();
 
-app.use(cors())
+const corsOptions = {
+    origin: process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type']
+};
 
-
-app.use(express.json())
+app.use(cors(corsOptions));
+app.use(express.json({ limit: '1mb' }));
 
 app.get('/', (req, res) => {
-    res.send('Hello World')
-})
+    res.json({ message: 'AI Code Reviewer API is running' });
+});
 
-app.use('/ai', aiRoutes)
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
-module.exports = app
+app.use('/ai', aiRoutes);
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error('Unhandled Server Error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+});
+
+module.exports = app;
