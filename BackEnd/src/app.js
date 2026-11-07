@@ -5,7 +5,7 @@ const aiRoutes = require('./routes/ai.routes');
 const app = express();
 
 const corsOptions = {
-    origin: process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : '*',
+    origin: process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',').map(url => url.trim()) : '*',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
 };

@@ -118,5 +118,30 @@ Returns backend health status.
 
 ---
 
+## 🌐 Deployment Guide
+
+### 1. Deploy Backend (Render)
+1. Go to [Render](https://render.com) and create a **Web Service**.
+2. Connect this repository and set:
+   - **Root Directory**: `BackEnd`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js`
+3. Add Environment Variables:
+   - `GOOGLE_GEMINI_KEY`: Your Gemini API key.
+   - `CLIENT_URL`: `*` (or your Vercel URL once deployed).
+4. Set Health Check path to `/health`.
+5. Once deployed, copy your backend URL (e.g. `https://your-api.onrender.com`).
+
+### 2. Deploy Frontend (Vercel)
+1. Go to [Vercel](https://vercel.com) and import this repository.
+2. Configure Project Settings:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `Frontend`
+3. Add Environment Variable:
+   - `VITE_API_URL`: Your deployed Render backend URL (e.g. `https://your-api.onrender.com`).
+4. Click **Deploy**.
+
+---
+
 ## 📄 License
 ISC
