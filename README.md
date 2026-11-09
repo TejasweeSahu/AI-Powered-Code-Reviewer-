@@ -1,6 +1,6 @@
 # AI-Powered Code Reviewer
 
-An automated, intelligent code reviewing application built with **React**, **Express**, and **Google Gemini AI** (`gemini-2.0-flash`). Paste or type your code, click review, and receive an instant, senior-developer-level analysis covering code quality, performance optimizations, bug detection, and security vulnerabilities.
+An automated, intelligent code reviewing application built with **React**, **Express**, and **Google Gemini AI** (`gemini-3.8-flash`). Paste or type your code, click review, and receive an instant, senior-developer-level analysis covering code quality, performance optimizations, bug detection, and security vulnerabilities.
 
 ---
 
@@ -18,7 +18,7 @@ An automated, intelligent code reviewing application built with **React**, **Exp
 
 - **Frontend**: React 19, Vite, Axios, React Simple Code Editor, Prism.js, React Markdown, Rehype Highlight.
 - **Backend**: Node.js, Express, `@google/generative-ai`, CORS, Dotenv.
-- **AI Model**: Google Gemini (`gemini-2.0-flash`).
+- **AI Model**: Google Gemini (`gemini-3.8-flash`).
 
 ---
 
