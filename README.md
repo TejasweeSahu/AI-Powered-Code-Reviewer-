@@ -118,35 +118,5 @@ Returns backend health status.
 
 ---
 
-## 🌐 Deployment Guide (Vercel)
-
-Both the **Backend** and **Frontend** can be deployed on Vercel as two separate projects from this repository.
-
-### Step 1: Deploy Backend on Vercel
-1. Go to [vercel.com/new](https://vercel.com/new) and import this repository.
-2. Configure project settings:
-   - **Project Name**: `ai-code-reviewer-backend`
-   - **Framework Preset**: `Other`
-   - **Root Directory**: Click **Edit** and select `BackEnd`
-3. Add Environment Variables:
-   - `GOOGLE_GEMINI_KEY`: Your Google Gemini API key.
-   - `CLIENT_URL`: `*` (or your frontend Vercel URL once deployed).
-4. Click **Deploy**.
-5. Once deployed, copy your backend URL (e.g. `https://ai-code-reviewer-backend.vercel.app`).
-6. Test `https://<your-backend-url>/health` in your browser to confirm `{ "status": "ok" }`.
-
-### Step 2: Deploy Frontend on Vercel
-1. Go to [vercel.com/new](https://vercel.com/new) and import this repository again.
-2. Configure project settings:
-   - **Project Name**: `ai-code-reviewer-frontend`
-   - **Framework Preset**: `Vite`
-   - **Root Directory**: Click **Edit** and select `Frontend`
-3. Add Environment Variable:
-   - `VITE_API_URL`: Your deployed backend Vercel URL from Step 1 (e.g. `https://ai-code-reviewer-backend.vercel.app`).
-4. Click **Deploy**.
-5. Open your live frontend URL and start reviewing code!
-
----
-
 ## 📄 License
 ISC
