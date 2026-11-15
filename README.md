@@ -7,7 +7,7 @@ An automated, intelligent code reviewing application built with **React**, **Exp
 ## ✨ Features
 
 - ⚡ **Instant AI Feedback**: Powered by Google's Gemini generative AI model with custom senior-level review instructions.
-- 🎨 **Syntax-Highlighted Editor**: In-browser code editing using Prism syntax highlighting.
+- 🎨 **Syntax-Highlighted Editor**: In-browser code editing with Prism highlighting for JavaScript, TypeScript, Python, Java, C, C++, Go, Rust, and SQL.
 - 📝 **Structured Markdown Output**: Reviews broken down into issues, recommended fixes, and key architectural improvements.
 - 🛡️ **Defensive Error Handling**: Input validation, payload limits, API error alerting, and graceful fallback handling.
 - 📱 **Responsive Design**: Split-pane layout that adapts cleanly to desktop and mobile screen sizes.
@@ -62,7 +62,15 @@ An automated, intelligent code reviewing application built with **React**, **Exp
 
    # Or production
    npm start
+
+   # Run tests (no API key needed; the Gemini call is stubbed)
+   npm test
    ```
+
+   Optional settings (see `.env.example`):
+   - `CLIENT_URL`: allowed CORS origins. Unset or `*` allows all. Otherwise a comma-separated list, where entries may use `*` wildcards (e.g. `https://my-app-*.vercel.app` for preview deployments).
+   - `RATE_LIMIT_MAX` / `RATE_LIMIT_WINDOW_MS`: per-IP limit on reviews (default 20 per 15 minutes).
+   - `GEMINI_MODEL`: override the default model.
 
    The server will start on `http://localhost:3000`.
 
@@ -103,14 +111,21 @@ Submits source code for senior code review.
 - **Request Body**:
   ```json
   {
-    "code": "function sum() { return 1 + 1; }"
+    "code": "function sum() { return 1 + 1; }",
+    "language": "javascript"
   }
   ```
+  `language` is optional (defaults to `javascript`). Supported: `javascript`, `typescript`, `python`, `java`, `c`, `cpp`, `go`, `rust`, `sql`.
 - **Success Response (200)**: Markdown formatted review string.
 - **Error Responses**:
-  - `400 Bad Request`: `{ "error": "Code snippet is required and cannot be empty." }`
-  - `413 Payload Too Large`: `{ "error": "Code snippet exceeds the maximum supported length..." }`
-  - `500 Internal Server Error`: `{ "error": "..." }`
+  - `400 Bad Request`: empty code, unsupported language, or malformed JSON.
+  - `413 Payload Too Large`: code longer than 50,000 characters.
+  - `422 Unprocessable Entity`: the AI declined to review the snippet (e.g. safety block).
+  - `429 Too Many Requests`: per-IP rate limit hit; see the `Retry-After` header.
+  - `500 Internal Server Error`: server misconfiguration (e.g. missing API key).
+  - `502 Bad Gateway` / `503 Service Unavailable`: the AI service failed or is over quota.
+
+  All errors are `{ "error": "<safe message>" }`; upstream details are logged server-side only.
 
 ### `GET /health`
 Returns backend health status.

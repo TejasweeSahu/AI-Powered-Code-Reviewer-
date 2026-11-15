@@ -38,6 +38,31 @@ main .left {
   border: 1px solid #242424;
 }
 
+.left .toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid #242424;
+  font-size: 0.85rem;
+  color: #a0a0a0;
+}
+
+.left .toolbar select {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  border: 1px solid #333;
+  border-radius: 0.4rem;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.left .toolbar select:focus-visible {
+  outline: 2px solid #4f8cff;
+  outline-offset: 1px;
+}
+
 .left .code {
   flex: 1;
   width: 100%;

@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 let genAI = null;
@@ -7,7 +6,9 @@ let model = null;
 function getModel() {
     const apiKey = process.env.GOOGLE_GEMINI_KEY;
     if (!apiKey) {
-        throw new Error("GOOGLE_GEMINI_KEY is missing. Please set it in your environment or BackEnd/.env file.");
+        const error = new Error("GOOGLE_GEMINI_KEY is missing. Please set it in your environment or BackEnd/.env file.");
+        error.code = 'MISSING_API_KEY';
+        throw error;
     }
 
     if (!model) {
@@ -51,8 +52,13 @@ Format your output using standard markdown with:
     return model;
 }
 
-async function generateContent(prompt) {
+async function generateContent(code, language = 'javascript') {
     const aiModel = getModel();
+    // Fence with more backticks than appear in the snippet so the code can't break out
+    // of its block.
+    const longestRun = Math.max(2, ...(code.match(/`+/g) || []).map(run => run.length));
+    const fence = '`'.repeat(longestRun + 1);
+    const prompt = `Review the following ${language} code.\n\n${fence}${language}\n${code}\n${fence}`;
     const result = await aiModel.generateContent(prompt);
     const response = await result.response;
     return response.text();
